@@ -1,29 +1,49 @@
 import flet as ft
-from src.api import get_books
+from src.api import get_books, delete_book
 
-def build_book_list_view(on_add_click):
+def build_book_list_view(page: ft.Page, on_add_click, on_edit_click, on_refresh):
     books = get_books()
-    list_items = ft.Column(spacing=15, scroll=ft.ScrollMode.AUTO, expand=True)
+    list_items = ft.Column(spacing=12, scroll=ft.ScrollMode.AUTO, expand=True)
+
+    def show_message(message: str, color: str):
+        snack = ft.SnackBar(ft.Text(message, color="#ffffff"), bgcolor=color)
+        page.overlay.append(snack)
+        snack.open = True
+        page.update()
+
+    def handle_delete(book_id):
+        success, error = delete_book(book_id)
+        if success:
+            show_message("Livro apagado com sucesso!", "#cf222e")
+            on_refresh()
+        else:
+            show_message("Erro ao apagar livro.", "#cf222e")
 
     for book in books:
         list_items.controls.append(
             ft.Container(
                 content=ft.ListTile(
-                    title=ft.Text(book['title'], weight=ft.FontWeight.BOLD),
-                    subtitle=ft.Text(f"{book['author']} • {book['year']}"),
-                    leading=ft.Icon(ft.Icons.MENU_BOOK, color=ft.Colors.ON_SURFACE_VARIANT)
+                    title=ft.Text(book['title'], color="#0969da", weight=ft.FontWeight.W_600, size=15),
+                    subtitle=ft.Text(f"{book['author']} • {book['year']}", color="#656d76", size=13),
+                    leading=ft.Icon(ft.Icons.MENU_BOOK, color="#656d76", size=20),
+                    trailing=ft.Row([
+                        ft.IconButton(ft.Icons.EDIT, icon_color="#656d76", tooltip="Editar", on_click=lambda e, b=book: on_edit_click(b)),
+                        ft.IconButton(ft.Icons.DELETE, icon_color="#cf222e", tooltip="Apagar", on_click=lambda e, b_id=book['id']: handle_delete(b_id))
+                    ], tight=True)
                 ),
-                border=ft.Border.all(1, ft.Colors.OUTLINE_VARIANT),
-                border_radius=8,
-                bgcolor=ft.Colors.SURFACE,
+                border=ft.Border.all(1, "#d0d7de"),
+                border_radius=6,
+                bgcolor="#ffffff",
+                # CORREÇÃO: Usando um número inteiro direto
+                padding=8
             )
         )
 
     return ft.Column([
         ft.Row([
-            ft.Text("Acervo da Biblioteca", size=24, weight=ft.FontWeight.W_600),
+            ft.Text("Acervo da Biblioteca", size=20, weight=ft.FontWeight.W_600, color="#1F2328"),
         ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
-        ft.Divider(height=20, color=ft.Colors.TRANSPARENT),
+        ft.Divider(height=10, color="transparent"),
         list_items,
         ft.Container(
             content=ft.ElevatedButton(
@@ -31,11 +51,14 @@ def build_book_list_view(on_add_click):
                 icon=ft.Icons.ADD,
                 on_click=lambda _: on_add_click(),
                 width=float("inf"),
+                bgcolor="#1f883d",
+                color="#ffffff",
                 style=ft.ButtonStyle(
-                    shape=ft.RoundedRectangleBorder(radius=8),
-                    padding=15
+                    shape=ft.RoundedRectangleBorder(radius=6),
+                    padding=16
                 )
             ),
-            padding=20
+            # CORREÇÃO: Usando um número inteiro direto
+            padding=16
         )
     ], expand=True)

@@ -1,11 +1,13 @@
 import flet as ft
 from src.views.book_list import build_book_list_view
 from src.views.add_book import build_add_book_view
+from src.views.edit_book import build_edit_book_view
 
 def main(page: ft.Page):
     page.title = "Sistema de Biblioteca"
     page.theme_mode = ft.ThemeMode.LIGHT
-    page.window.width = 420
+    page.bgcolor = "#f6f8fa" 
+    page.window.width = 450
     page.window.height = 750
     page.padding = 24
 
@@ -15,12 +17,15 @@ def main(page: ft.Page):
         page.update()
 
     def show_list():
-        render(build_book_list_view(show_add_form))
+        # Passamos a página e as funções de callback necessárias
+        render(build_book_list_view(page, show_add_form, show_edit_form, show_list))
 
     def show_add_form():
         render(build_add_book_view(page, show_list))
 
+    def show_edit_form(book):
+        render(build_edit_book_view(page, book, show_list))
+
     show_list()
 
-# Substituído ft.app por ft.run para remover o aviso de depreciação
 ft.run(main)

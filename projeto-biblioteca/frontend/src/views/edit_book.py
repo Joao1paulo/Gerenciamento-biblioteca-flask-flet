@@ -1,7 +1,7 @@
 import flet as ft
-from src.api import add_book
+from src.api import update_book
 
-def build_add_book_view(page: ft.Page, on_back):
+def build_edit_book_view(page: ft.Page, book: dict, on_back):
     input_style = {
         "border_color": "#d0d7de",
         "focused_border_color": "#0969da",
@@ -13,9 +13,9 @@ def build_add_book_view(page: ft.Page, on_back):
         "label_style": ft.TextStyle(color="#656d76")
     }
 
-    title_input = ft.TextField(label="Título do Livro", **input_style)
-    author_input = ft.TextField(label="Autor", **input_style)
-    year_input = ft.TextField(label="Ano", keyboard_type=ft.KeyboardType.NUMBER, **input_style)
+    title_input = ft.TextField(label="Título do Livro", value=book['title'], **input_style)
+    author_input = ft.TextField(label="Autor", value=book['author'], **input_style)
+    year_input = ft.TextField(label="Ano", value=str(book['year']), keyboard_type=ft.KeyboardType.NUMBER, **input_style)
 
     def show_message(message: str, color: str):
         snack = ft.SnackBar(ft.Text(message, color="#ffffff"), bgcolor=color)
@@ -23,25 +23,25 @@ def build_add_book_view(page: ft.Page, on_back):
         snack.open = True
         page.update()
 
-    def submit_form(e):
+    def submit_edit(e):
         try:
             year_val = int(year_input.value)
         except ValueError:
             show_message("Ano deve ser numérico!", "#cf222e")
             return
 
-        result, error = add_book(title_input.value, author_input.value, year_val)
+        result, error = update_book(book['id'], title_input.value, author_input.value, year_val)
         
         if error:
-            show_message("Erro ao cadastrar. Verifique os dados.", "#cf222e")
+            show_message("Erro ao atualizar. Verifique os dados.", "#cf222e")
         else:
-            show_message("Livro cadastrado com sucesso!", "#1f883d")
+            show_message("Livro atualizado com sucesso!", "#1f883d")
             on_back()
 
     return ft.Column([
         ft.Row([
             ft.IconButton(ft.Icons.ARROW_BACK, icon_color="#656d76", on_click=lambda _: on_back()),
-            ft.Text("Novo Livro", size=20, weight=ft.FontWeight.W_600, color="#1F2328"),
+            ft.Text("Editar Livro", size=20, weight=ft.FontWeight.W_600, color="#1F2328"),
         ], alignment=ft.MainAxisAlignment.START),
         ft.Divider(height=15, color="#d0d7de"),
         ft.Container(
@@ -55,10 +55,10 @@ def build_add_book_view(page: ft.Page, on_back):
         ),
         ft.Container(
             content=ft.ElevatedButton(
-                "Salvar Livro",
-                on_click=submit_form,
+                "Atualizar Livro",
+                on_click=submit_edit,
                 width=float("inf"),
-                bgcolor="#1f883d",
+                bgcolor="#0969da",
                 color="#ffffff",
                 style=ft.ButtonStyle(
                     shape=ft.RoundedRectangleBorder(radius=6),
