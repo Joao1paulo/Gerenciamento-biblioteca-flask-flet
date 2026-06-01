@@ -34,31 +34,27 @@ def build_book_list_view(page: ft.Page, on_add_click, on_edit_click, on_refresh)
                 border=ft.Border.all(1, "#d0d7de"),
                 border_radius=6,
                 bgcolor="#ffffff",
-                # CORREÇÃO: Usando um número inteiro direto
                 padding=8
             )
         )
 
     return ft.Column([
+        # CORREÇÃO: Título na esquerda e Botão Verde na direita (Padrão GitHub)
         ft.Row([
             ft.Text("Acervo da Biblioteca", size=20, weight=ft.FontWeight.W_600, color="#1F2328"),
-        ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
-        ft.Divider(height=10, color="transparent"),
-        list_items,
-        ft.Container(
-            content=ft.ElevatedButton(
-                "Adicionar Novo Livro",
+            ft.ElevatedButton(
+                "Novo Livro",
                 icon=ft.Icons.ADD,
                 on_click=lambda _: on_add_click(),
-                width=float("inf"),
                 bgcolor="#1f883d",
                 color="#ffffff",
                 style=ft.ButtonStyle(
                     shape=ft.RoundedRectangleBorder(radius=6),
                     padding=16
                 )
-            ),
-            # CORREÇÃO: Usando um número inteiro direto
-            padding=16
-        )
+            )
+        ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
+        
+        ft.Divider(height=15, color="transparent"),
+        list_items
     ], expand=True)

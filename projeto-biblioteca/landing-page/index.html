@@ -5,33 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca App - LDW</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background-color: #f6f8fa; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased">
-    <main class="max-w-3xl mx-auto py-16 px-6">
-        <header class="mb-12 text-center">
-            <h1 class="text-4xl font-semibold tracking-tight text-gray-900 mb-4">Gerenciador de Biblioteca</h1>
-            <p class="text-lg text-gray-500">Aplicação Full Stack • Flask & Flet</p>
-        </header>
+<body class="text-gray-800 antialiased">
+    
+    <header class="bg-white border-b border-gray-200 px-6 py-4 shadow-sm flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+            <span class="font-semibold text-lg tracking-tight">Gerenciador de Biblioteca</span>
+        </div>
+        <span class="text-sm text-gray-500 font-medium">Avaliação LDW</span>
+    </header>
 
-        <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 mb-8">
-            <h2 class="text-2xl font-semibold mb-4">Sobre o Projeto</h2>
+    <main class="max-w-3xl mx-auto py-12 px-6">
+        <div class="mb-10 text-center">
+            <h1 class="text-4xl font-semibold tracking-tight text-gray-900 mb-3">Bem-vindo ao Sistema</h1>
+            <p class="text-lg text-gray-500">Uma aplicação Full Stack construída com Flask e Flet.</p>
+        </div>
+
+        <section class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-8">
+            <h2 class="text-xl font-semibold mb-3 text-gray-900">Sobre o Projeto</h2>
             <p class="text-gray-600 leading-relaxed">
-                Este projeto foi desenvolvido como avaliação da disciplina de LDW. O sistema permite o gerenciamento básico do acervo de uma biblioteca, oferecendo listagem e cadastro de novos exemplares. A interface foi desenhada visando simplicidade e facilidade de uso, seguindo um fluxo limpo.
+                Este sistema permite o gerenciamento completo do acervo de uma biblioteca, incluindo listagem, cadastro, edição e exclusão de exemplares. A arquitetura utiliza <strong>Flask</strong> no backend com documentação interativa via Swagger, e o framework <strong>Flet</strong> no frontend para garantir uma interface de usuário reativa.
             </p>
         </section>
 
-        <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-            <h2 class="text-2xl font-semibold mb-4">Como Executar</h2>
-            <ol class="list-decimal list-inside space-y-4 text-gray-600">
-                <li><strong>Backend:</strong> Navegue até a pasta <code>backend</code>, crie e ative uma venv. Instale as dependências com <code>pip install -r requirements.txt</code> e rode <code>python app.py</code>.</li>
-                <li><strong>Swagger:</strong> Acesse <code>http://127.0.0.1:5000/apidocs</code> no navegador para testar os endpoints da API.</li>
-                <li><strong>Frontend:</strong> Em um novo terminal, vá até a pasta <code>frontend</code>, crie outra venv, instale as dependências e inicie o app com <code>flet run main.py</code>.</li>
-            </ol>
+        <section class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+            <h2 class="text-xl font-semibold mb-6 text-gray-900">Como Usar e Executar o Sistema</h2>
+            
+            <div class="space-y-8 text-gray-600 text-sm">
+                <div>
+                    <h3 class="font-semibold text-gray-900 mb-3 text-base">1. Iniciando o Backend (API)</h3>
+                    <ol class="list-decimal list-inside space-y-2 ml-1">
+                        <li>Abra o terminal e navegue até a pasta <code class="bg-gray-100 text-pink-600 px-1.5 py-0.5 rounded font-mono">backend</code>.</li>
+                        <li>Ative seu ambiente virtual.</li>
+                        <li>Execute o servidor rodando <code class="bg-gray-100 text-pink-600 px-1.5 py-0.5 rounded font-mono">python app.py</code>.</li>
+                        <li class="text-gray-500 pt-1">O Swagger (Documentação da API) pode ser acessado e testado em: <br> <a href="http://127.0.0.1:5000/apidocs" class="text-blue-600 hover:underline font-medium" target="_blank">http://127.0.0.1:5000/apidocs</a></li>
+                    </ol>
+                </div>
+                
+                <hr class="border-gray-100">
+                
+                <div>
+                    <h3 class="font-semibold text-gray-900 mb-3 text-base">2. Iniciando o Frontend (Flet)</h3>
+                    <ol class="list-decimal list-inside space-y-2 ml-1">
+                        <li>Abra um <strong>novo terminal</strong> e acesse a pasta <code class="bg-gray-100 text-pink-600 px-1.5 py-0.5 rounded font-mono">frontend</code>.</li>
+                        <li>Ative o ambiente virtual desta pasta.</li>
+                        <li>Execute a aplicação rodando o comando <code class="bg-gray-100 text-pink-600 px-1.5 py-0.5 rounded font-mono">flet run --web main.py</code>.</li>
+                        <li class="text-gray-500 pt-1">A interface será aberta em uma nova aba do seu navegador, conectada diretamente ao Backend. Nela você poderá visualizar os livros, adicionar novos, editar ou apagar.</li>
+                    </ol>
+                </div>
+            </div>
         </section>
     </main>
+
 </body>
 </html>

@@ -4,6 +4,7 @@ from schemas.book_schema import BookCreateSchema
 
 books_bp = Blueprint('books', __name__)
 
+# Dados em memória simulando um banco de dados
 books_db = [
     {"id": 1, "title": "O Design do Dia a Dia", "author": "Donald Norman", "year": 2002},
     {"id": 2, "title": "Não Me Faça Pensar", "author": "Steve Krug", "year": 2000}
@@ -13,7 +14,10 @@ books_db = [
 def get_books():
     """
     Lista todos os livros
-
+    ---
+    responses:
+      200:
+        description: Retorna a lista de livros disponíveis
     """
     return jsonify(books_db), 200
 
@@ -21,7 +25,17 @@ def get_books():
 def get_book(book_id):
     """
     Busca um livro pelo ID
-
+    ---
+    parameters:
+      - name: book_id
+        in: path
+        type: integer
+        required: true
+    responses:
+      200:
+        description: Retorna os detalhes do livro
+      404:
+        description: Livro não encontrado
     """
     book = next((b for b in books_db if b["id"] == book_id), None)
     if book:
@@ -32,7 +46,29 @@ def get_book(book_id):
 def add_book():
     """
     Adiciona um novo livro ao acervo
-
+    ---
+    parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          id: BookInput
+          required:
+            - title
+            - author
+            - year
+          properties:
+            title:
+              type: string
+            author:
+              type: string
+            year:
+              type: integer
+    responses:
+      201:
+        description: Livro cadastrado com sucesso
+      400:
+        description: Erro de validação nos dados enviados
     """
     try:
         data = request.get_json()
@@ -53,6 +89,31 @@ def add_book():
 def edit_book(book_id):
     """
     Edita um livro existente
+    ---
+    parameters:
+      - name: book_id
+        in: path
+        type: integer
+        required: true
+      - name: body
+        in: body
+        required: true
+        schema:
+          id: BookInput
+          properties:
+            title:
+              type: string
+            author:
+              type: string
+            year:
+              type: integer
+    responses:
+      200:
+        description: Livro atualizado com sucesso
+      404:
+        description: Livro não encontrado
+      400:
+        description: Erro de validação nos dados
     """
     book = next((b for b in books_db if b["id"] == book_id), None)
     if not book:
@@ -74,7 +135,17 @@ def edit_book(book_id):
 def delete_book(book_id):
     """
     Apaga um livro do acervo
-
+    ---
+    parameters:
+      - name: book_id
+        in: path
+        type: integer
+        required: true
+    responses:
+      200:
+        description: Livro apagado com sucesso
+      404:
+        description: Livro não encontrado
     """
     global books_db
     book = next((b for b in books_db if b["id"] == book_id), None)

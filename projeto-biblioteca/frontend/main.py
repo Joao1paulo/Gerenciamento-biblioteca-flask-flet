@@ -7,17 +7,24 @@ def main(page: ft.Page):
     page.title = "Sistema de Biblioteca"
     page.theme_mode = ft.ThemeMode.LIGHT
     page.bgcolor = "#f6f8fa" 
-    page.window.width = 450
-    page.window.height = 750
-    page.padding = 24
+    # CORREÇÃO: Centraliza o conteúdo horizontalmente no navegador
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.padding = 0
 
     def render(view_content: ft.Control):
         page.controls.clear()
-        page.add(view_content)
+        # CORREÇÃO: Limita a largura a 750px para não esticar em monitores grandes
+        page.add(
+            ft.Container(
+                content=view_content,
+                width=750,
+                padding=24,
+                expand=True
+            )
+        )
         page.update()
 
     def show_list():
-        # Passamos a página e as funções de callback necessárias
         render(build_book_list_view(page, show_add_form, show_edit_form, show_list))
 
     def show_add_form():
