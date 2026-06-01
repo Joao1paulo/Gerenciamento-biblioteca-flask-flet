@@ -22,4 +22,5 @@ def main(page: ft.Page):
 
     show_list()
 
-ft.app(target=main)
+# Substituído ft.app por ft.run para remover o aviso de depreciação
+ft.run(main)
